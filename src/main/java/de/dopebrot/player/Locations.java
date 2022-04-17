@@ -1,4 +1,4 @@
-package de.dopebrot;
+package de.dopebrot.player;
 
 public enum Locations {
 

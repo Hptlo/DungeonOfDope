@@ -1,10 +1,13 @@
 package de.dopebrot;
 
 import de.dopebrot.player.Player;
+import de.dopebrot.savegame.SavegameManager;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+
 
 public class Main {
     private static Scanner reader;
@@ -109,6 +112,7 @@ public class Main {
     }
 
 
+
     /*
         1. Messaging System
         2. Command System
@@ -129,23 +133,24 @@ public class Main {
     private static String username;
     private static Game game;
     private static MessageManager message;
+    private static File savefile;
     private static SavegameManager savegameManager;
-    private static final File saveFile = new File("savegame.yml");
 
-    public static void main(String[] args) {
-        savegameManager = new SavegameManager(saveFile);
+
+    public static void main(String[] args) throws IOException {
+        System.out.println("!!! This Game creates a Savefile in this Directory !!!");
+        savefile = new File("savegame.yml");
+        savegameManager = new SavegameManager(savefile);
+        if (savefile.exists()) {
+            savegameManager.load();
+        }
+
+
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("-debug")) {
                 System.out.println("!!! DEBUG MODE IS ACTIVE !!!");
             }
-            if (saveFile.exists()) {
-                game = savegameManager.load();
-            } else {
-                System.out.println("!!! This Game creates a Savefile in this Directory !!!");
-                savegameManager.save();
-            }
         }
-
 
         reader = new Scanner(System.in);
         message = new MessageManager(game);
@@ -166,11 +171,13 @@ public class Main {
                     delayedTransition(555, 10, "\n");
                     try {
                         Thread.sleep(1000);
-                        game = new Game(username, new Player(username));
+                        game = new Game(new Player(username, game));
                     } catch (InterruptedException e) {
                         message.debugMessage("Error on timer: " + e.getMessage());
-                        game = new Game(username, new Player(username));
+                        game = new Game(new Player(username, game));
                     }
+                    savegameManager.save(game);
+
 
                 }
             } else {

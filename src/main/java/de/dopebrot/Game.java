@@ -1,7 +1,10 @@
 package de.dopebrot;
 
+import de.dopebrot.player.Locations;
 import de.dopebrot.player.Player;
+import de.dopebrot.savegame.SavegameManager;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class Game {
@@ -11,18 +14,19 @@ public class Game {
     public CommandManager commandManager;
     private Scanner reader;
 
+    private File savefile;
 
     private boolean isFirstTime;
     private boolean isActionMessage;
     public boolean canExecuteCommands;
     public boolean canChangeLocation;
+    public SavegameManager savegameManager;
 
-
-    public Game(String playerName, Player player) {
+    public Game(Player player) {
         this.player = player;
         message = new MessageManager(this);
         reader = new Scanner(System.in);
-        commandManager = new CommandManager(this,player);
+        commandManager = new CommandManager(this, player);
         isFirstTime = true;
         isActionMessage = false;
         canExecuteCommands = false;
@@ -30,6 +34,14 @@ public class Game {
         if (isFirstTime) {
             tutorial();
         }
+    }
+
+    public void save() {
+        savegameManager.save(this);
+    }
+
+    public void load() {
+        savegameManager.load();
     }
 
     private void tutorial() {
@@ -75,10 +87,6 @@ public class Game {
             message.gameMessage(250, "You are already in " + newLocation.displayName);
         }
     }
-
-
-
-
 
 
     public void start() {

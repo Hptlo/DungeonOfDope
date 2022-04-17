@@ -1,8 +1,9 @@
 package de.dopebrot.player;
 
-import de.dopebrot.Locations;
-import de.dopebrot.player.inventory.Inventory;
-import de.dopebrot.player.inventory.Item;
+
+import de.dopebrot.Game;
+import de.dopebrot.inventory.Inventory;
+import de.dopebrot.item.Item;
 
 import java.util.ArrayList;
 
@@ -21,14 +22,14 @@ public class Player {
     private float mana;
     private float exp;
     private float nextlevelexp;
-
     private Inventory inventory;
+    private Game game;
 
 
-    public Player(String username) {
+    public Player(String username, Game game) {
+        this.game = game;
         this.username = username;
         this.currentLocation = Locations.HOME;
-        this.inventory = new Inventory(this);
         this.coins = 15;
         this.level = 1;
         this.kills = 0;
@@ -38,6 +39,7 @@ public class Player {
         this.maxHealth = 100f;
         this.mana = 50f;
         this.maxMana = 50f;
+        this.inventory = new Inventory(this, game);
     }
 
     public Locations getCurrentLocation() {
@@ -130,13 +132,6 @@ public class Player {
         this.nextlevelexp = nextlevelexp;
     }
 
-    public void setInventory(ArrayList<Item> items) {
-        for (int i = 0; i < items.size(); i++) {
-            inventory.setItem(i, items.get(i));
-        }
-
-
-    }
 
 
 }

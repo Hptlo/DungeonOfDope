@@ -1,7 +1,7 @@
 package de.dopebrot;
 
+import de.dopebrot.player.Locations;
 import de.dopebrot.player.Player;
-import de.dopebrot.player.inventory.ArmorSlot;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +64,14 @@ public class CommandManager {
             case "damageme":
                 game.message.gameMessage("You hit yourself -5 HP");
                 break;
+            case "save":
+            case "sleep":
+                if (player.getCurrentLocation().equals(Locations.HOME)) {
+                    game.save();
+                } else {
+                    game.message.gameMessage(250,"You are not at Home");
+                }
+                break;
             default:
                 break;
         }
@@ -122,12 +130,12 @@ public class CommandManager {
         game.message.splitterMessage(" Exp: " + player.getExp() + " / " + player.getNextlevelexp());
         game.message.splitterMessage(" Schmeckels: " + player.getCoins());
         game.message.splitterMessage(" Kills: " + player.getKills());
-        game.message.splitterMessage(" Hand: " + player.getInventory().getItem(0).getDisplayName());
-        game.message.splitterMessage(" Amor:");
-        game.message.splitterMessage("  > Head: " + player.getInventory().getArmor(ArmorSlot.HELMET).getDisplayName());
-        game.message.splitterMessage("  > Chest: " + player.getInventory().getArmor(ArmorSlot.CHESTPLATE).getDisplayName());
-        game.message.splitterMessage("  > Legs: " + player.getInventory().getArmor(ArmorSlot.LEGGINGS).getDisplayName());
-        game.message.splitterMessage("  > Foot: " + player.getInventory().getArmor(ArmorSlot.BOOTS).getDisplayName());
+//        game.message.splitterMessage(" Hand: " + player.getInventory().getItem(0).getDisplayName());
+//        game.message.splitterMessage(" Amor:");
+//        game.message.splitterMessage("  > Head: " + player.getInventory().getArmor(ArmorSlot.HELMET).getDisplayName());
+//        game.message.splitterMessage("  > Chest: " + player.getInventory().getArmor(ArmorSlot.CHESTPLATE).getDisplayName());
+//        game.message.splitterMessage("  > Legs: " + player.getInventory().getArmor(ArmorSlot.LEGGINGS).getDisplayName());
+//        game.message.splitterMessage("  > Foot: " + player.getInventory().getArmor(ArmorSlot.BOOTS).getDisplayName());
         game.message.splitterMessage("---- " + game.message.replaceLenght(player.getUsername(), '-') + "-------- ----");
         game.message.splitterMessage(" ");
     }
