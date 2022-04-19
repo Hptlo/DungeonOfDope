@@ -2,10 +2,9 @@ package de.dopebrot.player;
 
 
 import de.dopebrot.Game;
-import de.dopebrot.inventory.Inventory;
-import de.dopebrot.item.Item;
-
-import java.util.ArrayList;
+import de.dopebrot.inventory.PlayerArmor;
+import de.dopebrot.inventory.PlayerInventory;
+import de.dopebrot.item.*;
 
 public class Player {
 
@@ -22,7 +21,8 @@ public class Player {
     private float mana;
     private float exp;
     private float nextlevelexp;
-    private Inventory inventory;
+    private PlayerInventory inventory;
+    private PlayerArmor armorInventory;
     private Game game;
 
 
@@ -39,7 +39,9 @@ public class Player {
         this.maxHealth = 100f;
         this.mana = 50f;
         this.maxMana = 50f;
-        this.inventory = new Inventory(this, game);
+        this.inventory = new PlayerInventory(this, game);
+        this.armorInventory = new PlayerArmor(this, game);
+        this.inventory.setItem(0,new SwordItem(EItem.IRON_SWORD,5f,10f,25,4f));
     }
 
     public Locations getCurrentLocation() {
@@ -79,7 +81,6 @@ public class Player {
         return this.kills;
     }
 
-
     public float getExp() {
         return exp;
     }
@@ -88,8 +89,12 @@ public class Player {
         return nextlevelexp;
     }
 
-    public Inventory getInventory() {
+    public PlayerInventory getInventory() {
         return this.inventory;
+    }
+
+    public PlayerArmor getArmorInventory() {
+        return this.armorInventory;
     }
 
     public void setCurrentLocation(Locations location) {
@@ -131,7 +136,6 @@ public class Player {
     public void setNextlevelexp(float nextlevelexp) {
         this.nextlevelexp = nextlevelexp;
     }
-
 
 
 }

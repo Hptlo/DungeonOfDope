@@ -22,17 +22,21 @@ public class Game {
     public boolean canChangeLocation;
     public SavegameManager savegameManager;
 
-    public Game(Player player) {
-        this.player = player;
+    public Game(String playerName, boolean isFirstTime) {
+        this.player = new Player(playerName, this);
         message = new MessageManager(this);
         reader = new Scanner(System.in);
         commandManager = new CommandManager(this, player);
-        isFirstTime = true;
         isActionMessage = false;
         canExecuteCommands = false;
         canChangeLocation = false;
+        this.isFirstTime = isFirstTime;
         if (isFirstTime) {
             tutorial();
+        } else {
+            canExecuteCommands = true;
+            canChangeLocation = true;
+            start();
         }
     }
 
@@ -61,8 +65,13 @@ public class Game {
                 start();
                 isActionMessage = false;
             } else if (message.interactiveMessage(tempReader) == 0) {
-                message.gameMessage(1500, "I see you are an expert.");
-                message.gameMessage(1500, "Ok for now im gonna leave you.");
+                message.gameMessage(500, "I see you are an expert.");
+                message.gameMessage(1100, "Ok for now im gonna leave you.");
+                message.delay(500);
+                message.splitterMessage("----- -----");
+                message.splitterMessage("");
+                message.splitterMessage("");
+
                 canExecuteCommands = true;
                 start();
                 isActionMessage = false;

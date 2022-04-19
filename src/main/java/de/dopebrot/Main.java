@@ -1,6 +1,5 @@
 package de.dopebrot;
 
-import de.dopebrot.player.Player;
 import de.dopebrot.savegame.SavegameManager;
 
 import java.io.File;
@@ -135,6 +134,7 @@ public class Main {
     private static MessageManager message;
     private static File savefile;
     private static SavegameManager savegameManager;
+    private static boolean isSkipped = true;
 
 
     public static void main(String[] args) throws IOException {
@@ -150,6 +150,12 @@ public class Main {
             if (args[0].equalsIgnoreCase("-debug")) {
                 System.out.println("!!! DEBUG MODE IS ACTIVE !!!");
             }
+        }
+
+        if (isSkipped) {
+            game = new Game("DopeBrot", false);
+            game.start();
+            return;
         }
 
         reader = new Scanner(System.in);
@@ -171,10 +177,10 @@ public class Main {
                     delayedTransition(555, 10, "\n");
                     try {
                         Thread.sleep(1000);
-                        game = new Game(new Player(username, game));
+                        game = new Game(username, true);
                     } catch (InterruptedException e) {
                         message.debugMessage("Error on timer: " + e.getMessage());
-                        game = new Game(new Player(username, game));
+                        game = new Game(username, true);
                     }
                     savegameManager.save(game);
 

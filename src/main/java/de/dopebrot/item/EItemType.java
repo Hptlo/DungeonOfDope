@@ -2,16 +2,9 @@ package de.dopebrot.item;
 
 public enum EItemType {
 
-    SWORD(false),
-    WAND(false),
-    FOOD(true),
-    POTION(true);
+    WEAPON,
+    CONSUMABLE,
 
-
-    public boolean isStackable;
-
-    EItemType(boolean isStackable) {
-        this.isStackable = isStackable;
-    }
+    NULL;
 
 }
